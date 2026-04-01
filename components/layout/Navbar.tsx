@@ -1,0 +1,52 @@
+import Link from 'next/link'
+import Image from 'next/image'
+import { createClient } from '@/lib/supabase/server'
+import { NavbarClient } from './NavbarClient'
+
+export async function Navbar() {
+  const supabase = await createClient()
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+
+  let userData = null
+  if (authUser) {
+    const { data } = await supabase
+      .from('users')
+      .select('name, email, role')
+      .eq('id', authUser.id)
+      .single()
+    // Fall back to auth user info if not in users table (e.g. applicants)
+    userData = data ?? {
+      name: authUser.email ?? '',
+      email: authUser.email ?? '',
+      role: 'applicant',
+    }
+  }
+
+  return (
+    <nav className="bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+
+          {/* Left side: logo + nav links */}
+          <div className="flex">
+            <Link href="/" className="flex items-center space-x-3">
+              <Image
+                src="/mnhire-logo.png"
+                alt="MNHire Logo"
+                width={40}
+                height={40}
+                className="object-contain"
+              />
+              <span className="text-xl font-bold text-gray-900">MNHire</span>
+            </Link>
+            <NavbarClient user={userData} section="links" />
+          </div>
+
+          {/* Right side: user menu */}
+          <NavbarClient user={userData} section="user" />
+
+        </div>
+      </div>
+    </nav>
+  )
+}

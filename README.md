@@ -1,0 +1,139 @@
+# HBA Jobs - Employment Application System
+
+A comprehensive employment application system built with Next.js and Supabase for managing job postings, applications, interviews, and hiring workflows.
+
+## Features
+
+- **Job Management**: Create, publish, and manage job postings across multiple school sites
+- **Public Careers Site**: Browse and apply to positions
+- **Application Review**: Track and review applications through customizable workflows
+- **Interview Management**: Schedule interviews and collect feedback from interviewers
+- **Offer Management**: Create and track job offers
+- **Role-Based Access Control**: Different permissions for applicants, HR, hiring managers, and interviewers
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL, Auth, Storage)
+- **Forms**: React Hook Form with Zod validation
+
+## Getting Started
+
+For detailed setup instructions, see [SETUP.md](./SETUP.md).
+
+Quick start:
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Set up environment variables:
+Create a `.env.local` file with:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
+
+3. Run database migrations:
+Execute the SQL in `supabase/migrations/001_initial_schema.sql` in your Supabase SQL editor.
+
+4. Set up storage bucket:
+Create a public bucket named `applications` in Supabase Storage for file uploads.
+
+5. Run the development server:
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Database Schema
+
+The system uses the following main tables:
+- `job_postings` - Job listings
+- `applicants` - Applicant information
+- `applications` - Job applications
+- `interviews` - Interview scheduling
+- `interview_feedback` - Interviewer feedback
+- `offers` - Job offers
+- `hires` - Hired employees
+- `users` - System users with roles
+
+## User Roles
+
+- **Applicant**: Can view jobs and submit applications
+- **HR/Admin**: Full access to all jobs and applicants
+- **Hiring Manager/Principal**: Access to applicants for their jobs
+- **Interviewer**: Can provide feedback on assigned interviews
+- **System Admin**: Manages settings and permissions
+
+## Application Flow
+
+1. **Job Posting**: HR/Admin creates and publishes job postings
+2. **Application**: Applicants browse jobs and submit applications with resumes
+3. **Review**: HR/Hiring Managers review applications and change status
+4. **Interview**: Schedule interviews and collect feedback from interviewers
+5. **Offer**: Create and send job offers to selected candidates
+6. **Hiring**: Track onboarding tasks for new hires
+
+## Project Structure
+
+```
+├── app/                    # Next.js app router pages
+│   ├── careers/           # Public job listings
+│   ├── apply/             # Application submission
+│   ├── my-applications/   # Applicant portal
+│   ├── admin/             # Admin dashboard
+│   └── api/               # API routes
+├── components/            # React components
+├── lib/                   # Utilities and helpers
+├── supabase/             # Database migrations
+└── types/               # TypeScript types
+```
+
+## Email Notifications
+
+The system uses Resend for sending email notifications:
+- Application submission confirmations (to applicants)
+- New application alerts (to HR)
+- Application status updates (to applicants)
+- Interview scheduling notifications
+
+For email setup instructions, see [SETUP_EMAIL.md](./SETUP_EMAIL.md).
+
+## Production Deployment
+
+The application is production-ready and can be deployed to various platforms.
+
+### Quick Deploy to Vercel (Recommended)
+
+1. Push your code to GitHub/GitLab/Bitbucket
+2. Visit [vercel.com](https://vercel.com) and import your repository
+3. Add environment variables in Vercel dashboard
+4. Deploy!
+
+### Comprehensive Guides
+
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide with multiple platform options
+- **[DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md)** - Step-by-step checklist for deployment
+
+### Build for Production
+
+```bash
+npm run build
+npm run start
+```
+
+## Documentation
+
+- [SETUP.md](./SETUP.md) - Complete setup instructions
+- [SETUP_EMAIL.md](./SETUP_EMAIL.md) - Email configuration with Resend
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Production deployment guide
+- [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) - Deployment checklist
+
+## License
+
+This project is built for HBA (Harvest, Wakanda, Sankofa) schools.
+
